@@ -1,0 +1,99 @@
+.contact-hero {
+    height: 40.7rem !important;
+    background: rgb(245, 244, 242);
+    @include max-width-991 {
+        height: 25rem !important;
+    }
+    &::after,
+    &::before {
+        display: none;
+    }
+    .big-heading {
+        color: $black !important;
+    }
+}
+.contact-nav {
+    ul {
+        li {
+            a {
+                color: $black !important;
+            }
+        }
+    }
+        svg {
+            path {
+                fill: $black !important;
+            }
+            circle {
+                stroke: $black !important;
+            }
+        }
+    .middle-line {
+        background: $black;
+    }
+    .touch-btn {
+        border: 1px solid $black;
+        color: $black;
+    }
+    
+    .img-overlay-content {
+        color: $white !important;
+        svg {
+            path {
+                fill: $white !important;
+            }
+        }
+    }
+}
+.contact-headline {
+    margin-bottom: 100px;
+    @include max-width-991 {
+        margin-bottom: 60px;
+    }
+}
+.supplier-contact {
+    margin-top: 100px;
+    border-bottom: none !important;
+}
+.main-contact {
+    border-bottom: none !important;
+}
+.number-list {
+    select {
+        position: absolute;
+        left: 4px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: calc(100% - 2px) !important;
+        border: none !important;
+        width: 100px;
+        text-align: center;
+    }
+    .line {
+        display: inline-block;
+        height: 30px;
+        width: 1px;
+        background: rgb(197, 204, 213);
+        position: absolute;
+        left: 110px;
+        top: 8px;
+    }
+}
+.contact-supplier,
+.main-contact {
+    .form-group {
+        margin-bottom: 32px;
+    }
+}
+
+.contact-work-us {
+    background: rgb(245, 244, 242) !important;
+    .right__bottom {
+        border-top: 1px solid rgba(1, 30, 65, 0.16);
+        padding-top: 20px;
+        a {
+            color: $black !important;
+        }
+    }
+}

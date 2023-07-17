@@ -1,0 +1,13 @@
+.faq {
+    padding-top: 400px;
+    @include max-width-991 {
+        padding-top: 300px;
+    }
+    .group {
+        margin-bottom: 32px;
+        p {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+    }
+}
