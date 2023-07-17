@@ -35,7 +35,6 @@ function warnBeforeAction(URL, table) {
                         "Your imaginary file has been deleted.",
                         "success"
                     );
-                    //    swal.close();
                     $(`#${table}`).DataTable().ajax.reload(null, false);
                 },
             });
