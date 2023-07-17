@@ -7,6 +7,7 @@ use App\Libraries\Encryption;
 use App\Modules\Company\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewCompanyNotification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
@@ -77,8 +78,8 @@ class CompanyController extends Controller
                 Image::make($_companyLogo->getRealPath())->resize(100,100)->save($path . '/' . $companayLogo); // Somehow uploaded big size dimention it will resize image 100*100
                 $company->logo = $companayLogo;
             }
-
             $company->save();
+            // $company->notify(new NewCompanyNotification($company));
 
             return response()->json([
                 'success' => true,
@@ -101,7 +102,9 @@ class CompanyController extends Controller
      */
     public function show($companyId)
     {
-        //
+        $decodedCompanyId = Encryption::decodeId($companyId);
+       return $data['company'] = Company::with('user')->find($decodedCompanyId);
+        return view("Company::show", $data);
     }
 
     /**
@@ -114,7 +117,6 @@ class CompanyController extends Controller
     {
         $decodedCompanyId = Encryption::decodeId($companyId);
         $data['company'] = Company::find($decodedCompanyId);
-
         return view("Company::edit", $data);
     }
 
@@ -161,8 +163,13 @@ class CompanyController extends Controller
                 if(!file_exists($path))
                     mkdir($path, 0777, true);
 
-                $companayLogo = trim(sprintf('%s', uniqid('companayLogo_', true))) . '.' . $_companyLogo->getClientOriginalExtension();
-                Image::make($_companyLogo->getRealPath())->resize(100,100)->save($path . '/' . $companayLogo); // Somehow uploaded big size dimention it will resize image 100*100
+                // Delete Old Image
+                $oldLogo = $path . '/' . $company->logo;
+                if(file_exists($oldLogo))
+                    @unlink($oldLogo);
+
+                $companayLogo = trim(sprintf('%s', uniqid('CompanyLogo_', true))) . '.' . $_companyLogo->getClientOriginalExtension();
+                Image::make($_companyLogo->getRealPath())->resize(100,100)->save($path . '/' . $companayLogo); // If somehow uploaded big size dimention it will resize image 100*100
                 $company->logo = $companayLogo;
             }
 
