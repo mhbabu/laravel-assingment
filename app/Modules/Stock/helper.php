@@ -1,5 +1,0 @@
-<?php
-
-/**
- *	Stock Helper
- */

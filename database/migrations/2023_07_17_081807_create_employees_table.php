@@ -20,11 +20,12 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
-            $table->string('phone')->nullable();
-            $table->integer('status')->default(0);
+            $table->string('phone')->unique();
+            $table->tinyInteger('status')->default(0);
             $table->integer('is_archive')->default(0);
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->integer('deleted_by')->nullable();
             $table->timestamps();
         });

@@ -39,11 +39,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 form-group">
+                {!! Form::label('status','Status',['class'=>'font-weight-bold required-star']) !!}
+                {!! Form::select('status',[1 => 'Active',0 => 'Inactive'],'',['class'=>$errors->has('status')?'form-control is-invalid':'form-control required']) !!}
+            </div>
         </div>
-    </div>
-    <div class="card-footer">
-        <a href="{{ route('employees.index') }}" class="btn btn-warning"><i class="fa fa-backward"></i> Back</a>
-        <button type="submit" class="btn float-right btn-primary"><i class="fa fa-save"></i> Save</button>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times-circle"></i> Close</button>
+            <button name="actionBtn" id="actionButton" type="submit" value="submit" class="actionButton btn btn-primary btn-sm float-right"><i class="fa fa-save"></i> Save</button>
+        </div>
     </div>
     {!! Form::close() !!}
 @endsection

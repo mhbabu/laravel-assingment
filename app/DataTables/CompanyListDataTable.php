@@ -84,7 +84,7 @@ class CompanyListDataTable extends DataTable
         return [
             'name'       => ['data' => 'name', 'name' => 'name', 'orderable' => true, 'searchable' => true],
             'email'      => ['data' => 'email', 'name' => 'email', 'orderable' => true, 'searchable' => true],
-            'logo'       => ['data' => 'logo', 'name' => 'logo', 'orderable' => true, 'searchable' => true],
+            'logo'       => ['data' => 'logo', 'name' => 'logo', 'orderable' => false, 'searchable' => false],
             'action'     => ['searchable' => false]
         ];
     }

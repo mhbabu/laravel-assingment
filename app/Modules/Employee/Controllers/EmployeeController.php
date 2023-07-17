@@ -2,12 +2,12 @@
 
 namespace App\Modules\Employee\Controllers;
 
+use App\DataTables\EmployeeListDataTable;
 use App\Libraries\Encryption;
 use App\Modules\Company\Models\Company;
 use App\Modules\Employee\Models\Employee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -20,17 +20,9 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(EmployeeListDataTable $dataTable)
     {
-        $data['employees'] = Employee::leftJoin('companies','companies.id','=','employees.company_id')
-            ->where('employees.is_archive',0)
-            ->orderBy('employees.id','desc')
-            ->get([
-                'employees.*',
-                'companies.name as company_name'
-            ]);
-
-        return view("Employee::index",$data);
+        return $dataTable->render("Employee::index");
     }
 
     /**
@@ -55,12 +47,14 @@ class EmployeeController extends Controller
         try {
 
             $validation = Validator::make($request->all(), [
-                'company_id' => 'required',
-                'name'       => 'required',
-                'email'      => 'required|email|unique:employees',
-                'mobile'     => 'required',
-                'address'    => 'required',
-                'status'     => 'required'
+                'company_id'  => 'required',
+                'first_name'  => 'required',
+                'last_name'   => 'required',
+                'email'       => 'required|email|unique:employees',
+                'phone'       => 'required|min:11|max:11|unique:employees',
+                'status'  => 'required'
+            ],[],[
+                'company_id' => 'company' // comapany_id renamed with company
             ]);
 
             if ($validation->fails()) {
@@ -71,13 +65,13 @@ class EmployeeController extends Controller
             }
 
             DB::beginTransaction();
-            $employee = new Employee();
-            $employee->company_id = $request->input('company_id');
-            $employee->name = $request->input('name');
-            $employee->email = $request->input('email');
-            $employee->mobile = $request->input('mobile');
-            $employee->address = $request->input('address');
-            $employee->status = $request->input('status');
+            $employee              = new Employee();
+            $employee->company_id  = $request->input('company_id');
+            $employee->first_name  = $request->input('first_name');
+            $employee->last_name   = $request->input('last_name');
+            $employee->email       = $request->input('email');
+            $employee->phone       = $request->input('phone');
+            $employee->status      = $request->input('status') ;
             $employee->save();
 
             /* Generating Employee ID No */
@@ -113,7 +107,9 @@ class EmployeeController extends Controller
      */
     public function show($employeeId)
     {
-        //
+        $decodedemployeeId = Encryption::decodeId($employeeId);
+        $data['employee'] = Employee::with(['user','comapany'])->find($decodedemployeeId);
+        return view("Employee::show", $data);
     }
 
     /**
@@ -144,12 +140,12 @@ class EmployeeController extends Controller
 
             $decodedemployeeId = Encryption::decodeId($employeeId);
             $validation = Validator::make($request->all(), [
-                'company_id' => 'required',
-                'name'    => 'required',
-                'email'   => ['required', 'email', Rule::unique('employees')->ignore($decodedemployeeId)],
-                'mobile'  => 'required',
-                'address' => 'required',
-                'status'  => 'required'
+                'company_id'  => 'required',
+                'first_name'  => 'required',
+                'last_name'   => 'required',
+                'email'       => ['required', 'email', Rule::unique('employees')->ignore($decodedemployeeId)],
+                'phone'       =>  ['required', 'min:11','max:11', Rule::unique('employees')->ignore($decodedemployeeId)],
+                'status'      => 'required'
             ]);
 
             if ($validation->fails()) {
@@ -159,13 +155,13 @@ class EmployeeController extends Controller
                 ]);
             }
 
-            $employee = Employee::find($decodedemployeeId);
-            $employee->company_id = $request->input('company_id');
-            $employee->name = $request->input('name');
-            $employee->email = $request->input('email');
-            $employee->mobile = $request->input('mobile');
-            $employee->address = $request->input('address');
-            $employee->status = $request->input('status');
+            $employee              = Employee::find($decodedemployeeId);
+            $employee->company_id  = $request->input('company_id');
+            $employee->first_name  = $request->input('first_name');
+            $employee->last_name   = $request->input('last_name');
+            $employee->email       = $request->input('email');
+            $employee->phone       = $request->input('phone');
+            $employee->status      = $request->input('status');
             $employee->save();
 
             return response()->json([
@@ -188,14 +184,14 @@ class EmployeeController extends Controller
      * @param  int  $employeeId
      * @return \Illuminate\Http\Response
      */
-    public function delete($employeeId)
+    public function destroy($employeeId)
     {
-        $decodedemployeeId = Encryption::decodeId($employeeId);
-        $employee = Employee::find($decodedemployeeId);
+        $decodedemployeeId     = Encryption::decodeId($employeeId);
+        $employee              = Employee::find($decodedemployeeId);
         $employee->is_archive  = 1;
         $employee->deleted_by  = auth()->user()->id;
-        $employee->deleted_at  = Carbon::now();
+        $employee->deleted_at  = now();
         $employee->save();
-        session()->flash('flash_success','Employee deleted successfully.');
+        return response()->json([]);
     }
 }

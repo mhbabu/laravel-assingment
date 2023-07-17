@@ -103,7 +103,7 @@ class CompanyController extends Controller
     public function show($companyId)
     {
         $decodedCompanyId = Encryption::decodeId($companyId);
-       return $data['company'] = Company::with('user')->find($decodedCompanyId);
+        $data['company'] = Company::with('user')->find($decodedCompanyId);
         return view("Company::show", $data);
     }
 

@@ -1,5 +1,0 @@
-<?php
-
-/**
- *	Purchase Helper
- */

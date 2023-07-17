@@ -29,24 +29,6 @@
                         <p>Employees</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url('/products') }}" class="nav-link {{ (request()->is('products*') ? 'active' : '') }}">
-                        <i class="nav-icon fab fa-product-hunt"></i>
-                        <p>Products</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/purchases') }}" class="nav-link {{ (request()->is('purchases*') ? 'active' : '') }}">
-                        <i class="nav-icon fas fa-shopping-bag"></i>
-                        <p>Purchase</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/stocks') }}" class="nav-link {{ (request()->is('stocks*') ? 'active' : '') }}">
-                        <i class="nav-icon fa fa-store"></i>
-                        <p>Stocks</p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

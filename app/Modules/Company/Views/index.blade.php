@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', 'Companies List')
 @section('header-css')
     {!! Html::style('assets/backend/dist/css/dataTables.bootstrap4.min.css') !!}
     {!! Html::style('assets/backend/dist/css/buttons.dataTables.min.css') !!}
@@ -42,14 +43,4 @@
     @if(isset($dataTable))
         {!! $dataTable->scripts() !!}
     @endif
-
-    {{-- <script type="text/javascript">
-
-        $(document.body).on('click','.action-delete',function(ev){
-            ev.preventDefault();
-            let URL = $(this).attr('href');
-            let redirectURL = "{{ route('companies.index') }}";
-            warnBeforeAction(URL, redirectURL);
-        });
-    </script> --}}
 @endsection
