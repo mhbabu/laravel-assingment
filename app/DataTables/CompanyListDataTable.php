@@ -22,8 +22,8 @@ class CompanyListDataTable extends DataTable
             })
             ->addColumn('action', function ($data) {
                 $actionBtn = '';
-                $actionBtn .= '<a href="' . route('companies.show',  \App\Libraries\Encryption::encodeId($data->id)) . '" class="btn btn-sm btn-info m-1" title="View"><i class="fa fa-eye"></i> View</a> ';
-                $actionBtn .= '<a href="/companies/' . \App\Libraries\Encryption::encodeId($data->id) . '/edit/" class="btn btn-sm btn-primary AppModal m-1" title="Edit" data-toggle="modal" data-target="#AppModal"><i class="fa fa-edit"></i> Edit</a> ';
+                $actionBtn .= '<a href="' . route('companies.show',  \App\Libraries\Encryption::encodeId($data->id)) . '" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i> View</a> ';
+                $actionBtn .= '<a href="/companies/' . \App\Libraries\Encryption::encodeId($data->id) . '/edit/" class="btn btn-sm btn-primary AppModal" title="Edit" data-toggle="modal" data-target="#AppModal"><i class="fa fa-edit"></i> Edit</a> ';
                 $actionBtn .= '<a href="' . route('companies.destroy',  \App\Libraries\Encryption::encodeId($data->id)) . '" table="company-table" class="btn btn-sm btn-danger action-delete" title="Delete"><i class="fa fa-trash"></i> Delete</a> ';
                 return $actionBtn;
             })

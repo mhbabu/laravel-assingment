@@ -87,6 +87,7 @@ class CompanyController extends Controller
                 'link'    => route('companies.index')
             ]);
         } catch (\Exception $e) {
+            info($e->getMessage());
             return response()->json([
                 'error'  => true,
                 'status' => $e->getMessage()

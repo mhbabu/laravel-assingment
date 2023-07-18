@@ -5,8 +5,11 @@ namespace App\Modules\Company\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\Notifiable;
 
 class Company extends Model {
+
+    use  Notifiable;
 
     protected $table = 'companies';
     protected $fillable = [

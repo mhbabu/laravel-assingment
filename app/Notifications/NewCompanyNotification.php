@@ -19,7 +19,7 @@ class NewCompanyNotification extends Notification
      *
      * @return void
      */
-    public function __construct(Company $company)
+    public function __construct($company)
     {
         $this->companyInfo = $company;
     }
@@ -46,17 +46,12 @@ class NewCompanyNotification extends Notification
         return (new MailMessage)
             ->greeting('Hello, ' . $this->companyInfo->name)
             ->line('Welcome to our system')
-            ->action('Get started', route('dashboard'))
+            ->action('Get started', route('dashboard.index'))
             ->line('Your company has been successfully registered in our system.')
-            ->line('Here are your account details:')
+            ->line('Here are your info:')
             ->line('Company Name: ' . $this->companyInfo->name)
             ->line('Email: ' . $this->companyInfo->email)
-            ->line('Phone: ' . $this->companyInfo->phone)
-            ->line('Thank you for joining our platform!')
-            ->attach(public_path('uploads/comapanies-logo/' . $this->companyInfo->logo), [
-                'as' => 'logo.png',
-                'mime' => 'image/png'
-            ]);
+            ->line('Thank you for joining our platform!');
     }
 
     /**

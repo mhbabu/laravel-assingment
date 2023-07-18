@@ -20,7 +20,10 @@
                 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-lg-right">
-                <a class="dropdown-item" href="{{ url('logout') }}"><i class="fas fa-user-lock mr-2"></i> Logout </a>
+                <a class="dropdown-item" href="{{ url('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-user-lock mr-2"></i> Logout </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
         </li>
     </ul>
